@@ -39,13 +39,19 @@ Pod::Spec.new do |s|
    end
   end
 
-  if const_defined?(:ReactNativePodsUtils) && ReactNativePodsUtils.respond_to?(:spm_dependency)
-    ReactNativePodsUtils.spm_dependency(s, 
-      url: 'https://github.com/apple/swift-atomics.git',
-      requirement: {kind: 'upToNextMajorVersion', minimumVersion: '1.1.0'},
-      products: ['Atomics']
+  if defined?(:spm_dependency)
+    spm_dependency(s,  
+      url: 'https://github.com/apple/swift-atomics.git', 
+      requirement: {kind: 'upToNextMajorVersion', minimumVersion: '1.1.0'}, 
+      products: ['Atomics'] 
     )
-  else
-    raise "Please upgrade React Native to >=0.75.0 to use SPM dependencies."
-  end
+    
+    spm_dependency(s,  
+      url: 'https://github.com/pytorch/executorch.git', 
+      requirement: {kind: 'revision', revision: 'e19893740c76195d6c4e6b44648725a46cee244e'}, 
+      products: ['backend_coreml', 'backend_mps', 'backend_xnnpack', 'executorch_debug'] 
+    )
+  else 
+    raise "Please upgrade React Native to >=0.75.0 to use SPM dependencies." 
+  end 
 end
